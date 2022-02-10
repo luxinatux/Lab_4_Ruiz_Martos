@@ -44,50 +44,32 @@ def plot():
         asb = s_port.readline() # one extra read line to get to the first piece of data
         ## Boolean for seeing when data becomes the word "Done"
         completition = 0
-        ## Motor 1 Time Values
+        ##  Time Values
         x1_list = []
-        ## Motor 1 Position Values
+        ## Voltage Values
         y1_list = []
-        ## Motor 2 Time Values
-        x2_list = []
-        ## Motor 2 Position Values
-        y2_list = []
+        
         while not completition == 1:
             ## The motor number, the time value, the encoder position or done
             mixed_output = s_port.readline().split(b',')
             print(mixed_output)
             
-            if mixed_output[0] == b'M1':
-                try:
-                    time1 = int(mixed_output[1])
-                except:
-                    completition = 1
-                    
-                try:
-                    pos1 = int(mixed_output[2])
-                except:
-                    completition = 1
-                if completition == 0:
-                    x1_list.append(time1)
-                    y1_list.append(pos1)
-            else:
-
-                try:
-                    time2 = int(mixed_output[1])
-                except:
-                    completition = 1
-                    
-                try:
-                    pos2 = int(mixed_output[2])
-                except:
-                    completition = 1
-                if completition == 0:
-                    x2_list.append(time2)
-                    y2_list.append(pos2)
             
+            try:
+                time1 = int(mixed_output[0])
+            except:
+                completition = 1
+                
+            try:
+                val1 = int(mixed_output[1])
+            except:
+                completition = 1
+                
+            if completition == 0:
+                x1_list.append(time1)
+                y1_list.append(val1)        
             
-       
-        s_port.write(b'\r\n') #runs the main function
+        #s_port.write(b'\r\n') #runs the main function
     s_port.close() #This made our code the only consistent repeatable output
      
 
@@ -95,8 +77,8 @@ def plot():
     #plotting of the data commences here
     plt.plot(x1_list,y1_list)
     plt.xlabel("Time[ms]")
-    plt.ylabel("Position[ticks]")
-    plt.title("Step Response 1, period = 15ms") #title is changed for various plots
+    plt.ylabel("Voltage[V]")
+    plt.title("Step Response of RC Circuit") #title is changed for various plots
     
     '''
     plt.plot(x2_list,y2_list)
