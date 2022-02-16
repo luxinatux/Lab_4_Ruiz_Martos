@@ -80,7 +80,7 @@ if __name__ == "__main__":
                 pass
             
             else:
-                if print_count >= 1001:
+                if print_count >= 1500:
                    timer1.callback(None)
                    state = 1
                    pass
