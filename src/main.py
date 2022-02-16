@@ -26,7 +26,8 @@ def isr_adc(bad):
     @details  Continuously writes the encoder position to the shared variable position1_share.
     """
     C0_queue.put(adc_obj.read(),in_ISR = True)
-    T1_queue.put(time.ticks_diff(time.ticks_ms(),time_start))
+    #T1_queue.put(time.ticks_diff(time.ticks_ms(),time_start))
+    T1_queue.put(time.ticks_diff(time.ticks_ms(),time_start),in_ISR = True)
     
   
 
@@ -66,19 +67,22 @@ if __name__ == "__main__":
 
     time_start = time.ticks_ms()
     pinC1.high()
+    print_count = 0
     while(True):
         if state == 0:
             time_now = time.ticks_diff(time.ticks_ms(),time_start)
             ## current position from Encoder task
+            print_count += 1
             try:
                 print('{:},{:}'.format(T1_queue.get(), C0_queue.get()))
+                
             except:
-                print('done')
-                break
+                pass
             
             else:
-                if time_now >= 1000:
+                if print_count >= 1001:
                    timer1.callback(None)
+                   state = 1
                    pass
                
 #             if time_now >= 4000:

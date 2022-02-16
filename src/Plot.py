@@ -52,7 +52,7 @@ def plot():
         while not completition == 1:
             ## The motor number, the time value, the encoder position or done
             mixed_output = s_port.readline().split(b',')
-            print(mixed_output)
+            #print(mixed_output)
             
             
             try:
