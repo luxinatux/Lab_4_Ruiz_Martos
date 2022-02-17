@@ -2,7 +2,7 @@
     @file           Plot.py
     @brief          Data Acquisition file  
     @details        Communicates to the nucleo via serial port to collect step response data and plot it
-                    Runs main.py file on the nucleo via serial port and collects time and location(ticks) data from a step response.
+                    Runs main.py file on the nucleo via serial port and collects time and ADC data from a step response.
                     When running on a different computer, ensure that the correct com port number is changed.
     @author         Dylan Ruiz
     @author         Lucas Martos-Repath

@@ -1,9 +1,10 @@
 """!
     @file           main.py
-    @brief          Task implementation for step responses for two motors.
-    @details        Implements co-task implementation using the cotask file.   
-                    Produces and prints out step response results for both motors. 
-                    Tasks are implemented as generators.
+    @brief          Task implementation for Interrupt Service Routine RC circuit step Response
+    @details        Creates an Interrupt Service Routine to be run with a timer. The timer calls the
+                    ISR every millisecond. Data is passed out of our ISR via queues to be printed in our
+                    __main__ FSM. Our __main__ FSM allows us to turn the ISR off after 1500s to not overload the queue
+                    as the ISR gets called much faster than the processor is able to print
     @author         Dylan Ruiz
     @author         Lucas Martos-Repath
     @date           February 9, 2022
@@ -22,8 +23,10 @@ micropython.alloc_emergency_exception_buf(1000)
 
 def isr_adc(bad):
     """!
-    @brief    Task which initializes and updates encoder 1. 
-    @details  Continuously writes the encoder position to the shared variable position1_share.
+    @brief    Creates the Interrupt Service Routine
+    @details  When called, reads the ADC object (the pin set up to read ADC) and stores in a queue.
+              Then computes the current time and stores that in a queue
+    @param    bad Necessary input for ISR. not used in routine
     """
     C0_queue.put(adc_obj.read(),in_ISR = True)
     #T1_queue.put(time.ticks_diff(time.ticks_ms(),time_start))
